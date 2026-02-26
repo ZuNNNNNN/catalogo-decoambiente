@@ -1,0 +1,9 @@
+nombre,categoria,precio,descripcion,emoji,tags,destacado,stock,sku
+Sofá Riviera,living,1890000,Sofá de 3 cuerpos con estructura de pino y tapizado en lino natural. Diseño atemporal con respaldo alto.,🛋️,"sofá,living,lino",si,3,SOF-RIV-001
+Lámpara Arc Doré,iluminacion,420000,Lámpara de pie con arco en metal dorado mate y pantalla de lino. Altura ajustable.,💡,"lampara,dorado,iluminacion",si,5,LAM-ARC-002
+Alfombra Bereber Atlas,textiles,950000,Alfombra artesanal de lana 100% con diseño berber geométrico. Hecha a mano en Marruecos.,🧶,"alfombra,artesanal,bereber",si,2,ALF-BER-003
+Espejo Arco Provenzal,accesorios,380000,Espejo de pared con marco en forma de arco en metal negro. Estilo minimalista francés.,🪞,"espejo,metal,minimalista",no,8,ESP-ARC-004
+Mesa Travertino & Hierro,living,670000,Mesa de centro con tapa de travertino natural y base de hierro forjado negro.,🪵,"mesa,travertino,centro",no,4,MES-TRA-005
+Macetero Artesanal Oaxaca,jardin,125000,Macetero de cerámica artesanal pintado a mano. Diseño tradicional mexicano.,🌿,"macetero,ceramica,jardin",no,12,MAC-OAX-006
+Butaca Terciopelo Jade,dormitorio,580000,Butaca tapizada en terciopelo jade con patas de madera de nogal. Diseño mid-century.,🪑,"butaca,terciopelo,dormitorio",no,6,BUT-TER-007
+Vajilla Porcelana Nórdica,cocina,295000,Set de vajilla para 6 personas en porcelana blanca con detalles en relieve. Minimalista.,🍽️,"vajilla,porcelana,cocina",no,10,VAJ-POR-008
