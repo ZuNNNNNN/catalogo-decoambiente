@@ -8,9 +8,9 @@ import {
   Frame,
   Gem,
 } from "lucide-react";
-import type { Category } from "@/types";
+import type { CategoryUI } from "@/types";
 
-export const categoriesData: Category[] = [
+export const categoriesData: CategoryUI[] = [
   {
     slug: "living",
     name: "Living",
