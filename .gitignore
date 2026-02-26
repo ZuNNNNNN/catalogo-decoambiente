@@ -28,7 +28,9 @@ barber-royce/
 # Environment variables — never commit
 .env
 .env.local
-.env.production
+# .env.production se incluye para GitHub Pages deployment
+# Las credenciales de Firebase son públicas (seguridad en Firebase Rules)
+!.env.production
 
 # Firebase Admin SDK keys — never commit
 *.json
