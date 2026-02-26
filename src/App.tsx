@@ -7,7 +7,6 @@ import { AdminLoginPage } from "@/pages/admin/AdminLoginPage";
 import { AdminDashboardPage } from "@/pages/admin/AdminDashboardPage";
 import { AdminCategoriesPage } from "@/pages/admin/AdminCategoriesPage";
 import { AdminCollectionsPage } from "@/pages/admin/AdminCollectionsPage";
-import { FirebaseDiagnostico } from "@/pages/admin/FirebaseDiagnostico";
 import { NosotrosPage } from "@/pages/NosotrosPage";
 import { ContactoPage } from "@/pages/ContactoPage";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
@@ -29,7 +28,6 @@ const AppInner = () => {
         </Route>
         {/* Rutas admin - React 19 best practice */}
         <Route path="/admin" element={<AdminLoginPage />} />
-        <Route path="/admin/diagnostico" element={<FirebaseDiagnostico />} />
         <Route
           path="/admin/dashboard"
           element={

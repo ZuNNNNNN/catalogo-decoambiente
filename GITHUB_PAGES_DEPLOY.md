@@ -14,16 +14,16 @@ Ve a tu repositorio en GitHub: `Settings` → `Secrets and variables` → `Actio
 
 Crea los siguientes secrets con los valores de tu archivo `.env`:
 
-| Secret Name | Valor |
-|-------------|-------|
-| `VITE_FIREBASE_API_KEY` | Tu API Key de Firebase |
-| `VITE_FIREBASE_AUTH_DOMAIN` | `tu-proyecto.firebaseapp.com` |
-| `VITE_FIREBASE_PROJECT_ID` | ID de tu proyecto Firebase |
-| `VITE_FIREBASE_STORAGE_BUCKET` | `tu-proyecto.appspot.com` |
-| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Sender ID de Firebase |
-| `VITE_FIREBASE_APP_ID` | App ID de Firebase |
-| `VITE_FIREBASE_MEASUREMENT_ID` | (Opcional) Measurement ID |
-| `VITE_ADMIN_EMAILS` | Emails separados por coma |
+| Secret Name                         | Valor                         |
+| ----------------------------------- | ----------------------------- |
+| `VITE_FIREBASE_API_KEY`             | Tu API Key de Firebase        |
+| `VITE_FIREBASE_AUTH_DOMAIN`         | `tu-proyecto.firebaseapp.com` |
+| `VITE_FIREBASE_PROJECT_ID`          | ID de tu proyecto Firebase    |
+| `VITE_FIREBASE_STORAGE_BUCKET`      | `tu-proyecto.appspot.com`     |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Sender ID de Firebase         |
+| `VITE_FIREBASE_APP_ID`              | App ID de Firebase            |
+| `VITE_FIREBASE_MEASUREMENT_ID`      | (Opcional) Measurement ID     |
+| `VITE_ADMIN_EMAILS`                 | Emails separados por coma     |
 
 ### 📸 Ejemplo Visual:
 
@@ -44,6 +44,7 @@ Value: AIzaSyATu2ttWWPiWBfEj_nmbgaPEu3s7Y4v4gI
 ## 🏗️ Paso 3: Ejecutar el Deployment
 
 El workflow se ejecutará automáticamente cuando:
+
 - Hagas push a la rama `main`
 - Ejecutes manualmente desde `Actions` → `Deploy to GitHub Pages` → `Run workflow`
 
@@ -65,14 +66,16 @@ El workflow se ejecutará automáticamente cuando:
 ## 🛠️ Comandos Útiles
 
 ### Build local para probar:
+
 ```bash
 npm run build
 npm run preview
 ```
 
 ### Desplegar manualmente:
+
 1. Ve a `Actions`
-2. Selecciona `Deploy to GitHub Pages` 
+2. Selecciona `Deploy to GitHub Pages`
 3. Click en `Run workflow`
 4. Selecciona `main` branch
 5. Click en `Run workflow` verde
@@ -92,25 +95,30 @@ El workflow (`deploy.yml`) realiza:
 ## 🔧 Troubleshooting
 
 ### Error: "Module not found"
+
 - Verifica que todas las dependencias estén en `package.json`
 - Ejecuta `npm ci` localmente
 
 ### Error: "Environment variable undefined"
+
 - Revisa que todos los secrets estén configurados en GitHub
 - Los nombres deben coincidir exactamente (case-sensitive)
 
 ### Error: 404 al navegar en el sitio
+
 - GitHub Pages necesita configurar rutas correctamente
 - Asegúrate de que `base` en `vite.config.ts` esté correcto
 - Para React Router, considera agregar un `404.html` que redirija a `index.html`
 
 ### El sitio no se actualiza
+
 - Limpia caché del navegador (Ctrl + Shift + R)
 - Espera 1-2 minutos para propagación de CDN
 
 ## 🌐 URL del Sitio
 
 Una vez desplegado, tu catálogo estará disponible en:
+
 ```
 https://zunnnnnn.github.io/catalogo-decoambiente/
 ```
@@ -118,6 +126,7 @@ https://zunnnnnn.github.io/catalogo-decoambiente/
 ## 🔄 Actualizaciones Futuras
 
 Cada push a `main` disparará automáticamente un nuevo deployment:
+
 ```bash
 git add .
 git commit -m "feat: actualizar catálogo"
