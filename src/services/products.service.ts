@@ -10,28 +10,47 @@ import {
   updateDoc,
   deleteDoc,
   doc,
-  query,
-  orderBy,
   type DocumentData,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import type { Product } from "@/types";
+import type { Product, ProductFormData, BulkImportResult } from "@/types";
 
 const COLLECTION_NAME = "products";
 
 /**
  * Convierte un documento de Firestore a Product
+ * Soporta campos en español e inglés
  */
 function docToProduct(id: string, data: DocumentData): Product {
+  // Soportar campos en español e inglés
+  const name = data.name || data.nombre || "";
+  const price = Number(data.price || data.precio) || 0;
+  const featured =
+    Boolean(data.featured) ||
+    data.destacado === "sí" ||
+    data.destacado === "si" ||
+    data.destacado === true;
+
+  // Manejar tags como string o array
+  let tags: string[] = [];
+  if (Array.isArray(data.tags)) {
+    tags = data.tags;
+  } else if (typeof data.tags === "string") {
+    tags = data.tags
+      .split(",")
+      .map((t: string) => t.trim())
+      .filter(Boolean);
+  }
+
   return {
     id,
-    name: data.name || "",
+    name,
     category: data.category || "",
-    price: Number(data.price) || 0,
+    price,
     description: data.description || "",
     emoji: data.emoji || "🏺",
-    featured: Boolean(data.featured),
-    tags: Array.isArray(data.tags) ? data.tags : [],
+    featured,
+    tags,
     stock: data.stock !== undefined ? Number(data.stock) : undefined,
     sku: data.sku || "",
   };
@@ -42,9 +61,12 @@ function docToProduct(id: string, data: DocumentData): Product {
  */
 export async function getAllProducts(): Promise<Product[]> {
   try {
-    const q = query(collection(db, COLLECTION_NAME), orderBy("name"));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map((doc) => docToProduct(doc.id, doc.data()));
+    const snapshot = await getDocs(collection(db, COLLECTION_NAME));
+    const products = snapshot.docs.map((doc) =>
+      docToProduct(doc.id, doc.data()),
+    );
+    // Ordenar por nombre en el cliente
+    return products.sort((a, b) => a.name.localeCompare(b.name));
   } catch (error) {
     console.error("Error fetching products:", error);
     throw new Error("No se pudieron cargar los productos");
@@ -55,7 +77,7 @@ export async function getAllProducts(): Promise<Product[]> {
  * Crea un nuevo producto
  */
 export async function createProduct(
-  productData: Omit<Product, "id">,
+  productData: ProductFormData,
 ): Promise<string> {
   try {
     const docRef = await addDoc(collection(db, COLLECTION_NAME), {
@@ -74,7 +96,7 @@ export async function createProduct(
  */
 export async function updateProduct(
   id: string,
-  productData: Partial<Omit<Product, "id">>,
+  productData: Partial<ProductFormData>,
 ): Promise<void> {
   try {
     const docRef = doc(db, COLLECTION_NAME, id);
@@ -105,23 +127,27 @@ export async function deleteProduct(id: string): Promise<void> {
  * Crea múltiples productos en lote (para importación Excel)
  */
 export async function bulkCreateProducts(
-  products: Omit<Product, "id">[],
-): Promise<number> {
+  products: ProductFormData[],
+): Promise<BulkImportResult> {
   let created = 0;
   const errors: string[] = [];
+
+  console.log(`📦 Iniciando importación de ${products.length} productos...`);
 
   for (const product of products) {
     try {
       await createProduct(product);
       created++;
+      console.log(`✅ Producto creado: ${product.name}`);
     } catch (error) {
-      errors.push(product.name || "Sin nombre");
+      const errorMsg = `${product.name || "Sin nombre"}: ${error instanceof Error ? error.message : "Error desconocido"}`;
+      errors.push(errorMsg);
+      console.error(`❌ Error creando ${product.name}:`, error);
     }
   }
 
-  if (errors.length > 0) {
-    console.warn(`Algunos productos no se importaron: ${errors.join(", ")}`);
-  }
+  const result = { created, failed: errors.length, errors };
+  console.log(`📊 Importación completada:`, result);
 
-  return created;
+  return result;
 }
