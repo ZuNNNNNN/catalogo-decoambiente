@@ -3,13 +3,17 @@
  * Paleta cálida de Deco Ambiente
  */
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import { useLenisScroll } from "@/hooks/useLenisScroll";
 
 export const ScrollProgressBar = () => {
-  const { progress } = useLenisScroll();
   const location = useLocation();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   // Mostrar en landing y catálogo
   const showOn = ["/", "/catalogo"];
@@ -38,7 +42,7 @@ export const ScrollProgressBar = () => {
           background:
             "linear-gradient(90deg, #5C3D2E 0%, #C9956B 50%, #E8C09A 100%)",
           transformOrigin: "0%",
-          scaleX: progress,
+          scaleX,
           zIndex: 9999,
           boxShadow: "0 0 10px rgba(201, 149, 107, 0.5)",
         }}
