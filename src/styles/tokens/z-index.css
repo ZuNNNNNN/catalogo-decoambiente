@@ -1,0 +1,15 @@
+/* ============================================
+   Z-INDEX TOKENS
+   ============================================ */
+
+:root {
+  --z-index-base: 0;
+  --z-index-raised: 10;
+  --z-index-dropdown: 100;
+  --z-index-sticky: 200;
+  --z-index-fixed: 300;
+  --z-index-modal-backdrop: 400;
+  --z-index-modal: 500;
+  --z-index-toast: 600;
+  --z-index-tooltip: 700;
+}

@@ -1,0 +1,72 @@
+/* ============================================
+   MIXINS & UTILITIES CSS
+   ============================================ */
+
+/* Container centrado */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-6);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-4);
+  }
+}
+
+/* Visually hidden (accesibilidad) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Section padding */
+.section-padding {
+  padding: var(--spacing-section-desktop) 0;
+}
+
+@media (max-width: 1024px) {
+  .section-padding {
+    padding: var(--spacing-section-tablet) 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: var(--spacing-section-mobile) 0;
+  }
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-500),
+    var(--color-accent-500)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Decorative divider */
+.divider-accent {
+  display: inline-block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-500),
+    var(--color-accent-300)
+  );
+  border-radius: var(--radius-full);
+}

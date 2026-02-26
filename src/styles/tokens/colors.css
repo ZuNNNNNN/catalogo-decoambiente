@@ -1,0 +1,140 @@
+/* ============================================
+   COLOR TOKENS - DECO AMBIENTE & HOGAR
+   Paleta cálida y elegante para tienda de decoración
+   ============================================ */
+
+:root {
+  /* Primary Colors - Marrón cálido / Madera */
+  --color-primary-50: #fdf8f5;
+  --color-primary-100: #f5ede4;
+  --color-primary-200: #ead9c8;
+  --color-primary-300: #d4b89a;
+  --color-primary-400: #b8906b;
+  --color-primary-500: #5c3d2e; /* Base - Color principal */
+  --color-primary-600: #4a3025;
+  --color-primary-700: #38241b;
+  --color-primary-800: #261812;
+  --color-primary-900: #1c1008;
+
+  /* Accent Colors - Terracota / Dorado cálido */
+  --color-accent-50: #fef6ee;
+  --color-accent-100: #fde8d0;
+  --color-accent-200: #f9cc9f;
+  --color-accent-300: #e8c09a;
+  --color-accent-400: #d4a574;
+  --color-accent-500: #c9956b; /* Terracota principal */
+  --color-accent-600: #b07848;
+  --color-accent-700: #8a5c35;
+  --color-accent-800: #644226;
+  --color-accent-900: #402918;
+
+  /* Sage Green - Secundario natural */
+  --color-sage-50: #f4f7f4;
+  --color-sage-100: #e4ece4;
+  --color-sage-200: #c8d9c8;
+  --color-sage-300: #9cbd9c;
+  --color-sage-400: #70a070;
+  --color-sage-500: #4a7c4a; /* Verde salvia */
+  --color-sage-600: #3a623a;
+  --color-sage-700: #2c4a2c;
+  --color-sage-800: #1e321e;
+  --color-sage-900: #121e12;
+
+  /* Neutral Warm Colors - Cremas y grises cálidos */
+  --color-neutral-50: #fdfaf6;
+  --color-neutral-100: #f8f3ec;
+  --color-neutral-200: #ede5d8;
+  --color-neutral-300: #ddd2c0;
+  --color-neutral-400: #c4b49a;
+  --color-neutral-500: #a09070;
+  --color-neutral-600: #7a6e5a;
+  --color-neutral-700: #5a5248;
+  --color-neutral-800: #3c3830;
+  --color-neutral-900: #1c1a16;
+
+  /* Semantic Colors - Estados y feedback */
+  --color-success-light: #d1fae5;
+  --color-success: #10b981;
+  --color-success-dark: #059669;
+
+  --color-error-light: #fee2e2;
+  --color-error: #ef4444;
+  --color-error-dark: #dc2626;
+
+  --color-warning-light: #fef3c7;
+  --color-warning: #f59e0b;
+  --color-warning-dark: #d97706;
+
+  --color-info-light: #dbeafe;
+  --color-info: #3b82f6;
+  --color-info-dark: #2563eb;
+
+  /* Aplicación de colores - Semantic aliases */
+  --color-text-primary: var(--color-primary-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-tertiary: var(--color-neutral-400);
+  --color-text-inverse: var(--color-neutral-50);
+
+  --color-background-primary: #fdfaf6;
+  --color-background-secondary: var(--color-neutral-100);
+  --color-background-tertiary: var(--color-neutral-200);
+  --color-background-inverse: var(--color-primary-900);
+
+  --color-border-light: var(--color-neutral-200);
+  --color-border-medium: var(--color-neutral-300);
+  --color-border-dark: var(--color-neutral-400);
+
+  --color-overlay: rgba(28, 16, 8, 0.6);
+  --color-overlay-light: rgba(28, 16, 8, 0.3);
+
+  /* Surface & card tokens */
+  --color-surface: #ffffff;
+  --color-surface-raised: #fdfaf6;
+  --color-surface-overlay: #f5ede4;
+  --color-border: var(--color-neutral-200);
+}
+
+/* ============================================
+   MODO OSCURO — [data-theme="dark"]
+   ============================================ */
+[data-theme="dark"] {
+  /* Backgrounds */
+  --color-background-primary: #100b07;
+  --color-background-secondary: #1c1410;
+  --color-background-tertiary: #261d15;
+  --color-background-inverse: #f5ede4;
+
+  /* Surfaces */
+  --color-surface: #1c1410;
+  --color-surface-raised: #261d15;
+  --color-surface-overlay: #312318;
+
+  /* Text */
+  --color-text-primary: #f0e6da;
+  --color-text-secondary: #c4a882;
+  --color-text-tertiary: #7a6050;
+  --color-text-inverse: #1c1008;
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-light: rgba(255, 255, 255, 0.06);
+  --color-border-medium: rgba(255, 255, 255, 0.12);
+  --color-border-dark: rgba(255, 255, 255, 0.18);
+
+  /* Accent — más luminoso en dark */
+  --color-accent-300: #e8c09a;
+  --color-accent-400: #d4a882;
+  --color-accent-500: #c9956b;
+  --color-accent-600: #b07848;
+
+  /* Primary */
+  --color-primary-100: #261d15;
+  --color-primary-200: #31221a;
+  --color-primary-300: #8a6550;
+  --color-primary-400: #a07860;
+  --color-primary-500: #b89080;
+
+  /* Overlay */
+  --color-overlay: rgba(0, 0, 0, 0.7);
+  --color-overlay-light: rgba(0, 0, 0, 0.4);
+}
