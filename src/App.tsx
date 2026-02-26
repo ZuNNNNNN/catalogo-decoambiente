@@ -4,7 +4,10 @@ import { Layout } from "@/components/layout/Layout/Layout";
 import { HomePage } from "@/pages/HomePage";
 import { CatalogoPage } from "@/pages/CatalogoPage";
 import { AdminLoginPage } from "@/pages/admin/AdminLoginPage";
-import { AdminDashboardSimple } from "@/pages/admin/AdminDashboardSimple";
+import { AdminDashboardPage } from "@/pages/admin/AdminDashboardPage";
+import { AdminCategoriesPage } from "@/pages/admin/AdminCategoriesPage";
+import { AdminCollectionsPage } from "@/pages/admin/AdminCollectionsPage";
+import { FirebaseDiagnostico } from "@/pages/admin/FirebaseDiagnostico";
 import { NosotrosPage } from "@/pages/NosotrosPage";
 import { ContactoPage } from "@/pages/ContactoPage";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
@@ -26,11 +29,28 @@ const AppInner = () => {
         </Route>
         {/* Rutas admin - React 19 best practice */}
         <Route path="/admin" element={<AdminLoginPage />} />
+        <Route path="/admin/diagnostico" element={<FirebaseDiagnostico />} />
         <Route
           path="/admin/dashboard"
           element={
             <ProtectedRoute>
-              <AdminDashboardSimple />
+              <AdminDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/categories"
+          element={
+            <ProtectedRoute>
+              <AdminCategoriesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/collections"
+          element={
+            <ProtectedRoute>
+              <AdminCollectionsPage />
             </ProtectedRoute>
           }
         />

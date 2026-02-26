@@ -4,23 +4,24 @@
 
 import { useState } from "react";
 import * as XLSX from "xlsx";
-import type { Product } from "@/types";
+import type { ProductFormData } from "@/types";
 import { slugify } from "@/lib/utils";
 
 type ExcelRow = Record<string, string | number | boolean | undefined>;
 
 interface UseExcelImportReturn {
-  parseExcel: (file: File) => Promise<Omit<Product, "id">[]>;
+  parseExcel: (file: File) => Promise<ProductFormData[]>;
   loading: boolean;
   error: string | null;
-  preview: Omit<Product, "id">[] | null;
+  preview: ProductFormData[] | null;
 }
 
 /**
  * Mapea las columnas del Excel a los campos del producto
  * El Excel puede tener columnas con nombres en español o inglés
  */
-function mapRowToProduct(row: ExcelRow): Omit<Product, "id"> {
+//TODO: Revisar que el mapeo este optimizado y que todo quede en inglesS
+function mapRowToProduct(row: ExcelRow): ProductFormData {
   const name = String(
     row["nombre"] || row["name"] || row["Nombre"] || row["Name"] || "",
   ).trim();
@@ -79,12 +80,14 @@ function mapRowToProduct(row: ExcelRow): Omit<Product, "id"> {
   };
 }
 
+//TODO: Usar use() para evitar estado de loading y error en el componente, y manejar todo desde el hook
+
 export const useExcelImport = (): UseExcelImportReturn => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [preview, setPreview] = useState<Omit<Product, "id">[] | null>(null);
+  const [preview, setPreview] = useState<ProductFormData[] | null>(null);
 
-  const parseExcel = async (file: File): Promise<Omit<Product, "id">[]> => {
+  const parseExcel = async (file: File): Promise<ProductFormData[]> => {
     setLoading(true);
     setError(null);
 

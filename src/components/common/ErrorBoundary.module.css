@@ -1,0 +1,54 @@
+.errorPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 2rem;
+}
+
+.errorContent {
+  text-align: center;
+  max-width: 500px;
+}
+
+.errorIcon {
+  color: var(--error-color, #ef4444);
+  margin-bottom: 1rem;
+}
+
+.errorTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #1a1a1a);
+}
+
+.errorMessage {
+  color: var(--text-secondary, #666);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.btnRetry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-color, #2d5a3d);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnRetry:hover {
+  background: var(--primary-dark, #1e3a27);
+  transform: translateY(-1px);
+}
+
+.btnRetry:active {
+  transform: translateY(0);
+}

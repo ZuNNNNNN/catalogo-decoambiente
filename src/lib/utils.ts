@@ -9,12 +9,13 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Formatea precio según la moneda configurada en SITE (por defecto CLP)
  */
-export function formatPrice(price: number): string {
+export function formatPrice(price: number | undefined | null): string {
+  const validPrice = price ?? 0;
   return new Intl.NumberFormat(SITE.locale, {
     style: "currency",
     currency: SITE.currency,
     maximumFractionDigits: 0,
-  }).format(price);
+  }).format(validPrice);
 }
 
 /**
