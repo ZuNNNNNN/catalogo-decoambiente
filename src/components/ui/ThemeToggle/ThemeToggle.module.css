@@ -1,0 +1,36 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* En navbar scrolled/light */
+:global(.scrolled) .btn,
+:global([data-theme="light"]) .btn {
+  border-color: rgba(92, 61, 46, 0.2);
+  color: var(--color-primary-600, #5c3d2e);
+}
+
+:global(.scrolled) .btn:hover,
+:global([data-theme="light"]) .btn:hover {
+  background: rgba(92, 61, 46, 0.08);
+  color: var(--color-primary-900, #1c1008);
+}
