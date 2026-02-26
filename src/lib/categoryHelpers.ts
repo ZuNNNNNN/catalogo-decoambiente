@@ -6,7 +6,6 @@ import {
   Bed,
   ChefHat,
   Leaf,
-  Lamp,
   Layers,
   Frame,
   Gem,
