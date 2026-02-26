@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { featuredProductsData } from "@/data/productsData";
-import type { Product } from "@/types";
+import type { Product, ProductFormData, BulkImportResult } from "@/types";
 import * as productsService from "@/services/products.service";
 
 export const useProducts = () => {
@@ -40,7 +40,7 @@ export const useProducts = () => {
     fetchProducts();
   }, [fetchProducts]);
 
-  const addProduct = async (product: Omit<Product, "id">) => {
+  const addProduct = async (product: ProductFormData) => {
     try {
       const id = await productsService.createProduct(product);
       await fetchProducts();
@@ -50,10 +50,7 @@ export const useProducts = () => {
     }
   };
 
-  const updateProduct = async (
-    id: string,
-    data: Partial<Omit<Product, "id">>,
-  ) => {
+  const updateProduct = async (id: string, data: Partial<ProductFormData>) => {
     try {
       await productsService.updateProduct(id, data);
       await fetchProducts();
@@ -72,13 +69,12 @@ export const useProducts = () => {
   };
 
   const bulkCreateProducts = async (
-    productsToCreate: Omit<Product, "id">[],
-  ) => {
+    productsToCreate: ProductFormData[],
+  ): Promise<BulkImportResult> => {
     try {
-      const created =
-        await productsService.bulkCreateProducts(productsToCreate);
+      const result = await productsService.bulkCreateProducts(productsToCreate);
       await fetchProducts();
-      return created;
+      return result;
     } catch (err) {
       throw new Error("Error al importar productos");
     }
