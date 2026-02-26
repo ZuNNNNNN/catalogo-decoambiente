@@ -5,9 +5,18 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { Navigate } from "react-router-dom";
 
 export const AdminLoginPage = () => {
-  const { user, signInWithGoogle } = useAuth();
+  const { user, loading, signInWithGoogle } = useAuth();
 
-  // Redirigir si ya está autenticado - React 19: enfoque declarativo con Navigate
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <div style={{ textAlign: "center" }}>
+          <p>Verificando sesión...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (user) {
     return <Navigate to="/admin/dashboard" replace />;
   }

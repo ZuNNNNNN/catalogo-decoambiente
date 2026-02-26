@@ -1,11 +1,4 @@
-/**
- * Contexto de autenticación Firebase con Google - React 19 best practices
- * Usa useSyncExternalStore para sincronización con store externo
- * Maneja signInWithRedirect para evitar problemas de COOP
- */
-
 /* eslint-disable react-refresh/only-export-components */
-
 import {
   createContext,
   useState,
@@ -15,8 +8,7 @@ import {
 } from "react";
 import {
   onAuthStateChanged,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   signOut,
   type User,
 } from "firebase/auth";
@@ -24,38 +16,36 @@ import { auth, googleProvider } from "@/lib/firebase";
 
 interface AuthContextType {
   user: User | null;
+  loading: boolean;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   isAdmin: boolean;
-  isInitialized: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-// Lista de emails autorizados como admin
 const ADMIN_EMAILS = import.meta.env.VITE_ADMIN_EMAILS?.split(",") || [];
+const USER_STORAGE_KEY = "decoambiente_admin_user";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar redirect result al montar
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result?.user) {
-          console.log("✅ Login exitoso:", result.user.email);
-        }
-      })
-      .catch((error) => {
-        console.error("❌ Error al procesar redirect:", error);
-      });
-
-    // Escuchar cambios de autenticación
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("🔄 Auth state cambió:", currentUser?.email || "sin usuario");
+      if (currentUser) {
+        const userToStore = {
+          uid: currentUser.uid,
+          email: currentUser.email,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+        };
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userToStore));
+      } else {
+        localStorage.removeItem(USER_STORAGE_KEY);
+      }
       setUser(currentUser);
-      setIsInitialized(true);
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -63,22 +53,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithGoogle = useCallback(async () => {
     try {
-      console.log("🚀 Iniciando login con Google...");
-      await signInWithRedirect(auth, googleProvider);
-    } catch (error) {
-      console.error("❌ Error al iniciar sesión:", error);
+      await signInWithPopup(auth, googleProvider);
+    } catch (error: any) {
+      if (error.code === "auth/popup-blocked") {
+        alert(
+          "El popup fue bloqueado. Por favor, permite popups para este sitio.",
+        );
+      } else if (
+        error.code === "auth/cancelled-popup-request" ||
+        error.code === "auth/popup-closed-by-user"
+      ) {
+        // Usuario cerró el popup, no hacer nada
+      } else {
+        console.error("Error al iniciar sesión:", error);
+        alert(`Error al iniciar sesión: ${error.message}`);
+      }
       throw error;
     }
   }, []);
 
   const logout = useCallback(async () => {
-    try {
-      await signOut(auth);
-      console.log("👋 Logout exitoso");
-    } catch (error) {
-      console.error("❌ Error al cerrar sesión:", error);
-      throw error;
-    }
+    await signOut(auth);
   }, []);
 
   const isAdmin =
@@ -87,10 +82,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const value: AuthContextType = {
     user,
+    loading,
     signInWithGoogle,
     logout,
     isAdmin,
-    isInitialized,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
