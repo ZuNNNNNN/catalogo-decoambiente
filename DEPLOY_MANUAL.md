@@ -19,6 +19,7 @@ npm list gh-pages
 ```
 
 Si no aparece, instalar:
+
 ```bash
 npm install --save-dev gh-pages
 ```
@@ -36,6 +37,7 @@ npm run deploy
 ```
 
 Esto hará:
+
 1. Build del proyecto (con variables de `.env.production`)
 2. Push de la carpeta `dist/` a la rama `gh-pages`
 3. En 1-2 minutos, el sitio se actualizará
@@ -60,6 +62,7 @@ npx gh-pages -d dist
 ## 🎯 URL del Sitio
 
 Después del primer deploy:
+
 ```
 https://zunnnnnn.github.io/catalogo-decoambiente/
 ```
@@ -81,6 +84,7 @@ https://zunnnnnn.github.io/catalogo-decoambiente/
 ## 🐛 Troubleshooting
 
 ### Error: "Failed to get remote.origin.url"
+
 ```bash
 git remote -v
 # Deberías ver: origin https://github.com/ZuNNNNNN/catalogo-decoambiente.git
@@ -90,16 +94,19 @@ git remote add origin https://github.com/ZuNNNNNN/catalogo-decoambiente.git
 ```
 
 ### Error: "Permission denied"
+
 ```bash
 # Verificar autenticación
 git config --global credential.helper manager
 ```
 
 ### El sitio muestra errores 404
+
 - Verifica que el `base` en `vite.config.ts` sea: `/catalogo-decoambiente/`
 - Limpia caché del navegador (Ctrl + Shift + R)
 
 ### Variables de entorno no cargan
+
 - Verifica que `.env.production` existe en la raíz
 - Los nombres deben empezar con `VITE_`
 - Hacer build limpio: `rm -rf dist && npm run build`
@@ -128,6 +135,7 @@ npm run deploy
 ## 🔒 Seguridad
 
 Las credenciales de Firebase en `.env.production` son **públicas por diseño**:
+
 - La seguridad está en las **Firebase Rules** (Firestore/Storage)
 - Las API Keys de Firebase se usan en el frontend
 - Solo los emails en `VITE_ADMIN_EMAILS` tienen acceso al panel admin
@@ -150,11 +158,12 @@ npm run deploy
 ✅ Build con tus variables locales  
 ✅ Control total del proceso  
 ✅ Más rápido que CI/CD  
-✅ Funciona sin permisos de Actions  
+✅ Funciona sin permisos de Actions
 
 ## 🎨 Personalización
 
 Para cambiar la rama de deploy, editar `package.json`:
+
 ```json
 "deploy": "gh-pages -d dist -b tu-rama"
 ```

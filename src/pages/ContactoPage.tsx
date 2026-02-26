@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, MessageCircle, Send } from "lucide-react";
+import { MapPin, Mail, Clock, MessageCircle, Send } from "lucide-react";
 import styles from "./ContactoPage.module.css";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { COPY, CONTACT, WHATSAPP_URL } from "@/config/site";
