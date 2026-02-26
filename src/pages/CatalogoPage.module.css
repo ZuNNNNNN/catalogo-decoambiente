@@ -36,6 +36,16 @@
   margin-bottom: 0;
 }
 
+.localDataBanner {
+  background: #fef3c7;
+  border-bottom: 1px solid #fbbf24;
+  color: #92400e;
+  padding: var(--spacing-3) var(--spacing-6);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
 .searchBar {
   display: flex;
   align-items: center;
@@ -539,5 +549,35 @@
 
   .listView .cardImage {
     width: 120px;
+  }
+}
+
+/* Loading state */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: var(--spacing-4);
+}
+
+.spinner {
+  color: var(--color-accent-500);
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

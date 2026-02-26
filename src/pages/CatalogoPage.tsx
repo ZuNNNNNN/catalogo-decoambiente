@@ -8,18 +8,36 @@ import {
   LayoutGrid,
   List,
   ChevronDown,
+  Loader2,
 } from "lucide-react";
 import styles from "./CatalogoPage.module.css";
-import { featuredProductsData } from "@/data/productsData";
-import { categoriesData } from "@/data/categoriesData";
+import { useProducts } from "@/hooks/useProducts";
+import { useCategories } from "@/hooks/useCategories";
 import { formatPrice } from "@/lib/utils";
 import { scaleIn, staggerContainer } from "@/lib/animations";
-import type { SortOption, FilterState } from "@/types";
+import type { SortOption, FilterState, CategoryUI } from "@/types";
+import { getIconForEmoji } from "@/lib/categoryHelpers";
 
 export const CatalogoPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const { products, loading, usingLocalData } = useProducts();
+  const { categories } = useCategories();
+
+  // Transformar a CategoryUI con contador dinámico
+  const categoriesUI = useMemo<CategoryUI[]>(() => {
+    return categories.map((cat) => ({
+      slug: cat.slug,
+      name: cat.name,
+      description: cat.description,
+      emoji: cat.emoji,
+      Icon: getIconForEmoji(cat.emoji),
+      count: products.filter((p) => p.category === cat.slug).length,
+      gradient: "",
+      featured: cat.featured,
+    }));
+  }, [categories, products]);
 
   const [filters, setFilters] = useState<FilterState>({
     categoria: searchParams.get("categoria") || "",
@@ -38,7 +56,7 @@ export const CatalogoPage = () => {
   }, [filters.categoria, filters.busqueda, setSearchParams]);
 
   const filteredProducts = useMemo(() => {
-    let result = [...featuredProductsData];
+    let result = [...products];
 
     if (filters.categoria) {
       result = result.filter((p) => p.category === filters.categoria);
@@ -49,8 +67,8 @@ export const CatalogoPage = () => {
       result = result.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q) ||
-          p.tags.some((t) => t.toLowerCase().includes(q)),
+          p.description?.toLowerCase().includes(q) ||
+          p.tags?.some((t) => t.toLowerCase().includes(q)),
       );
     }
 
@@ -74,7 +92,18 @@ export const CatalogoPage = () => {
     }
 
     return result;
-  }, [filters]);
+  }, [filters, products]);
+
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.loadingContainer}>
+          <Loader2 size={48} className={styles.spinner} />
+          <p className={styles.loadingText}>Cargando productos...</p>
+        </div>
+      </div>
+    );
+  }
 
   const clearFilters = () => {
     setFilters({
@@ -128,6 +157,13 @@ export const CatalogoPage = () => {
         </div>
       </div>
 
+      {/* Local data indicator (solo en desarrollo) */}
+      {usingLocalData && import.meta.env.DEV && (
+        <div className={styles.localDataBanner}>
+          ℹ️ Mostrando datos de ejemplo (Firestore no disponible)
+        </div>
+      )}
+
       <div className={styles.body}>
         {/* Sidebar Filters */}
         <aside
@@ -151,7 +187,7 @@ export const CatalogoPage = () => {
             >
               Todas las categorías
             </button>
-            {categoriesData.map((cat) => (
+            {categoriesUI.map((cat) => (
               <button
                 key={cat.slug}
                 className={`${styles.filterOption} ${filters.categoria === cat.slug ? styles.active : ""}`}
@@ -203,7 +239,7 @@ export const CatalogoPage = () => {
             {/* Active filter chips */}
             {filters.categoria && (
               <span className={styles.chip}>
-                {categoriesData.find((c) => c.slug === filters.categoria)?.name}
+                {categoriesUI.find((c) => c.slug === filters.categoria)?.name}
                 <button
                   onClick={() => setFilters((f) => ({ ...f, categoria: "" }))}
                 >
@@ -292,7 +328,7 @@ export const CatalogoPage = () => {
                         <p className={styles.cardDesc}>{product.description}</p>
                       )}
                       <div className={styles.cardTags}>
-                        {product.tags.slice(0, 3).map((tag) => (
+                        {product.tags?.slice(0, 3).map((tag) => (
                           <span key={tag} className={styles.tag}>
                             {tag}
                           </span>

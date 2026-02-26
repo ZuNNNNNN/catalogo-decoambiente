@@ -1,23 +1,64 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ShoppingBag } from "lucide-react";
+import { ArrowRight, ShoppingBag, Loader2 } from "lucide-react";
 import styles from "./FeaturedProducts.module.css";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { fadeInUp, staggerContainer, scaleIn } from "@/lib/animations";
-import { featuredProductsData } from "@/data/productsData";
+import { useProducts } from "@/hooks/useProducts";
 import { formatPrice } from "@/lib/utils";
 import { COPY } from "@/config/site";
+import { useMemo } from "react";
 
 export const FeaturedProducts = () => {
-  const { ref, controls } = useScrollAnimation({ amount: 0.1 });
+  const { products, loading } = useProducts();
+
+  // Filtrar productos destacados
+  const featuredProducts = useMemo(() => {
+    console.log("🎯 Products for featured:", products.length, products);
+    const featured = products.filter((p) => p.featured);
+    console.log("⭐ Featured products found:", featured.length, featured);
+    return featured.slice(0, 6);
+  }, [products]);
+
+  if (loading || (products.length === 0 && featuredProducts.length === 0)) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <div style={{ textAlign: "center", padding: "4rem 2rem" }}>
+            <Loader2
+              size={32}
+              style={{ animation: "spin 1s linear infinite" }}
+            />
+            <p style={{ marginTop: "1rem", color: "#888" }}>
+              Cargando productos destacados...
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (featuredProducts.length === 0) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <div style={{ textAlign: "center", padding: "4rem 2rem" }}>
+            <p style={{ color: "#888" }}>
+              No hay productos destacados disponibles
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className={styles.section} ref={ref}>
+    <section className={styles.section}>
       <div className={styles.container}>
         <motion.div
           className={styles.header}
           initial="hidden"
-          animate={controls}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
           variants={fadeInUp}
         >
           <span className={styles.eyebrow}>{COPY.featured.eyebrow}</span>
@@ -28,19 +69,18 @@ export const FeaturedProducts = () => {
         <motion.div
           className={styles.grid}
           initial="hidden"
-          animate={controls}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
           variants={staggerContainer}
         >
-          {featuredProductsData.map((product) => (
+          {featuredProducts.map((product) => (
             <motion.div
               key={product.id}
               className={styles.card}
               variants={scaleIn}
             >
               <div className={styles.cardImage}>
-                <div className={styles.cardEmoji}>
-                  {product.Icon && <product.Icon size={36} strokeWidth={1.2} />}
-                </div>
+                <div className={styles.cardEmoji}>{product.emoji || "📦"}</div>
                 <div className={styles.cardCategory}>{product.category}</div>
               </div>
               <div className={styles.cardBody}>
@@ -67,7 +107,8 @@ export const FeaturedProducts = () => {
         <motion.div
           className={styles.seeAll}
           initial="hidden"
-          animate={controls}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
           variants={fadeInUp}
         >
           <Link to="/catalogo" className={styles.seeAllBtn}>
