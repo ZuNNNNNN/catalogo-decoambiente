@@ -16,8 +16,9 @@ import "@/styles/global.css";
 
 const AppInner = () => {
   useLenis();
+  const basename = import.meta.env.PROD ? '/catalogo-decoambiente' : '';
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
